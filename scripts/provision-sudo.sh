@@ -82,6 +82,11 @@ echo "==> Ghostty (COPR scottames/ghostty — still not in official repos as of 
 $DNF copr enable -y scottames/ghostty
 $DNF install -y ghostty
 
+echo "==> Brave Beta"
+# config-manager ships with dnf5-plugins (already in the spin), no extra setup needed.
+$DNF config-manager addrepo --from-repofile=https://brave-browser-rpm-beta.s3.brave.com/brave-browser-beta.repo
+$DNF install -y brave-browser-beta
+
 echo "==> Sway stack extras"
 # power-profiles-daemon left out on purpose: the spin serves that D-Bus API
 # via tuned-ppd, installing it would remove tuned.

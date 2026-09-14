@@ -44,6 +44,13 @@ else
   echo "    mise already installed, skipping."
 fi
 
+echo "==> Default browser: Brave Beta"
+if command -v xdg-settings >/dev/null 2>&1; then
+  xdg-settings set default-web-browser brave-browser-beta.desktop
+else
+  echo "    xdg-settings not found, skipping."
+fi
+
 echo "==> shell: source ~/.config/bash/my-sway.sh from ~/.bashrc (stowed by ./install.sh)"
 touch "$HOME/.bashrc"
 if ! grep -q 'my-sway.sh' "$HOME/.bashrc"; then
