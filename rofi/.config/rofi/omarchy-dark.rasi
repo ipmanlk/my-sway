@@ -1,0 +1,77 @@
+/* Omarchy-dark rofi theme: #101214 bg, #c9c9c9 fg, Tokyo Night blue accent */
+* {
+    bg:            #101214;
+    bg-alt:        #1a1d20;
+    fg:            #c9c9c9;
+    fg-dim:        #8a8a8a;
+    border-color:  #2a2e33;
+    accent:        #7aa2f7;
+    urgent:        #e06c75;
+
+    font: "JetBrainsMono Nerd Font 11";
+    background-color: transparent;
+    text-color: @fg;
+}
+
+window {
+    background-color: @bg;
+    border: 1px;
+    border-color: @border-color;
+    border-radius: 10px;
+    width: 520px;
+    padding: 12px;
+}
+
+mainbox {
+    spacing: 8px;
+    children: [ inputbar, listview ];
+}
+
+inputbar {
+    background-color: @bg-alt;
+    border-radius: 6px;
+    padding: 8px;
+    spacing: 8px;
+    children: [ prompt, entry ];
+}
+
+prompt {
+    text-color: @accent;
+}
+
+entry {
+    placeholder: "Type to filter…";
+    placeholder-color: @fg-dim;
+}
+
+listview {
+    lines: 8;
+    spacing: 2px;
+    scrollbar: false;
+    dynamic: true;
+}
+
+element {
+    padding: 6px 8px;
+    border-radius: 6px;
+    spacing: 8px;
+}
+
+element normal.normal {
+    background-color: transparent;
+    text-color: @fg;
+}
+
+element alternate.normal {
+    background-color: transparent;
+    text-color: @fg;
+}
+
+element selected.normal {
+    background-color: @accent;
+    text-color: @bg;
+}
+
+element urgent.normal {
+    text-color: @urgent;
+}

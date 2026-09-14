@@ -1,0 +1,28 @@
+[global]
+    font = JetBrainsMono Nerd Font 10
+    frame_width = 1
+    frame_color = "#2a2e33"
+    separator_color = "#2a2e33"
+    corner_radius = 8
+    offset = 12x20
+    padding = 10
+    horizontal_padding = 12
+    separator_height = 1
+    markup = full
+    format = "<b>%s</b>\n%b"
+
+[urgency_low]
+    background = "#101214"
+    foreground = "#8a8a8a"
+    timeout = 5
+
+[urgency_normal]
+    background = "#101214"
+    foreground = "#c9c9c9"
+    timeout = 8
+
+[urgency_critical]
+    background = "#101214"
+    foreground = "#e06c75"
+    frame_color = "#e06c75"
+    timeout = 0

@@ -1,0 +1,34 @@
+# Omarchy-dark Ghostty theme: #101214 bg, Tokyo Night blue accent
+# Matches the retired Alacritty palette 1:1. Ghostty config format (key = value).
+
+font-family = "JetBrainsMono Nerd Font"
+font-size = 10
+
+background = #101214
+foreground = #c9c9c9
+
+selection-background = #2d333b
+selection-foreground = #ffffff
+
+# cursor matches accent
+cursor-color = #7aa2f7
+
+# normal palette
+palette = 0=#2a2e33
+palette = 1=#e06c75
+palette = 2=#9ece9e
+palette = 3=#d8b26a
+palette = 4=#7aa2f7
+palette = 5=#bb9af7
+palette = 6=#7dcfff
+palette = 7=#c9c9c9
+
+# bright palette
+palette = 8=#5a5a5a
+palette = 9=#e06c75
+palette = 10=#9ece9e
+palette = 11=#d8b26a
+palette = 12=#7aa2f7
+palette = 13=#bb9af7
+palette = 14=#7dcfff
+palette = 15=#e6e6e6

@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Network Connections
+Comment=Manage network connections (Wi-Fi, Ethernet, VPN)
+Exec=nm-connection-editor
+Icon=preferences-system-network
+Terminal=false
+Type=Application
+Categories=GNOME;GTK;Settings;X-GNOME-NetworkSettings;
+Keywords=network;wifi;ethernet;vpn;wireless;
+StartupNotify=true

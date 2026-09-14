@@ -1,0 +1,227 @@
+/* Omarchy-inspired floating pill bar for Sway / Waybar
+ * - Thin (26px), floating (margins in config), 10px radius, single dark bg
+ * - Monochrome + one accent: Tokyo Night blue #7aa2f7 (focus/hover/power/charging)
+ * - Reds/ambers reserved for functional states only (urgent, critical, warning)
+ */
+
+* {
+    font-family: 'JetBrainsMono Nerd Font', 'Noto Sans Mono', 'Font Awesome 6 Free', 'Font Awesome 6 Brands', monospace;
+    font-size: 12px;
+    border: none;
+    border-radius: 0;
+    min-height: 0;
+}
+
+window#waybar {
+    background-color: #101214;
+    border: none;
+    border-radius: 0;
+    border-bottom: 1px solid #2a2e33;
+    color: #c9c9c9;
+    transition-property: background-color;
+    transition-duration: .5s;
+}
+
+window#waybar.hidden {
+    opacity: 0.2;
+}
+
+button {
+    box-shadow: inset 0 -2px transparent;
+    border: none;
+    border-radius: 0;
+}
+
+button:hover {
+    background: inherit;
+    box-shadow: inset 0 -2px #7aa2f7;
+}
+
+/* Left / right outer margins like Omarchy (8px) */
+.modules-left {
+    margin-left: 8px;
+}
+.modules-right {
+    margin-right: 8px;
+}
+
+/* Workspaces: minimal, dim empty, blue accent for focused */
+#workspaces button {
+    padding: 0 6px;
+    margin: 0 1.5px;
+    min-width: 9px;
+    background-color: rgba(122, 162, 247, 0.0);
+    color: #8a8a8a;
+}
+
+#workspaces button.empty {
+    opacity: 0.5;
+}
+
+#workspaces button:hover {
+    background: rgba(122, 162, 247, 0.12);
+    color: #ffffff;
+}
+
+#workspaces button.focused,
+#workspaces button.active {
+    background-color: rgba(122, 162, 247, 0.14);
+    color: #ffffff;
+    box-shadow: inset 0 -2px #7aa2f7;
+}
+
+#workspaces button.urgent {
+    background-color: #5a2a2a;
+    color: #ffffff;
+}
+
+#mode {
+    background-color: #2d333b;
+    color: #ffffff;
+    padding: 0 8px;
+}
+
+/* All modules: transparent bg, consistent fg, Omarchy-like margins */
+#clock,
+#battery,
+#cpu,
+#memory,
+#disk,
+#temperature,
+#backlight,
+#network,
+#pulseaudio,
+#wireplumber,
+#custom-media,
+#custom-power,
+#tray,
+#mode,
+#idle_inhibitor,
+#scratchpad,
+#power-profiles-daemon,
+#mpd,
+#language,
+#window {
+    padding: 0 6px;
+    margin: 0 2px;
+    color: #c9c9c9;
+    background-color: transparent;
+}
+
+/* Group spacings tuned like Omarchy defaults */
+#cpu,
+#battery,
+#pulseaudio,
+#idle_inhibitor {
+    min-width: 12px;
+    margin: 0 7.5px;
+}
+
+#tray {
+    margin-right: 8px;
+    margin-left: 7.5px;
+}
+
+#network {
+    margin-right: 7.5px;
+}
+
+#clock {
+    margin-left: 8px;
+    color: #e6e6e6;
+}
+
+#custom-power {
+    color: #7aa2f7;
+    margin-right: 4px;
+}
+
+#custom-recording {
+    color: #e06c75;
+    margin: 0;
+    padding: 0 4px;
+}
+
+#sway-window,
+#window {
+    color: #9a9a9a;
+}
+
+/* Muted / inactive states: dim, not colored blocks */
+#pulseaudio.muted,
+#wireplumber.muted {
+    color: #6e6e6e;
+}
+
+#network.disconnected {
+    color: #e06c75;
+}
+
+/* Functional states only: warning amber, charging accent blue, critical red */
+#battery.warning {
+    color: #d8b26a;
+}
+
+#battery.charging, #battery.plugged {
+    color: #7aa2f7;
+    background-color: transparent;
+}
+
+@keyframes blink {
+    to {
+        background-color: #5a2a2a;
+        color: #ffffff;
+    }
+}
+
+#battery.critical:not(.charging) {
+    background-color: #5a2a2a;
+    color: #ffffff;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: steps(12);
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+#power-profiles-daemon.performance,
+#power-profiles-daemon.balanced,
+#power-profiles-daemon.power-saver {
+    background-color: transparent;
+    color: #c9c9c9;
+}
+
+#temperature.critical {
+    background-color: transparent;
+    color: #e06c75;
+}
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+    background-color: #5a2a2a;
+}
+
+#idle_inhibitor.activated {
+    background-color: transparent;
+    color: #7aa2f7;
+}
+
+#scratchpad.empty {
+    background-color: transparent;
+}
+
+tooltip {
+    background-color: #1a1d20;
+    color: #d5d5d5;
+    border: 1px solid #2a2e33;
+    border-radius: 6px;
+    padding: 4px;
+}
+
+label:focus {
+    background-color: #2d333b;
+}

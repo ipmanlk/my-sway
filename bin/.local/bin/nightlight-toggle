@@ -1,0 +1,14 @@
+#!/bin/sh
+# Toggle night light (warm 4500K). Requires: sudo dnf install gammastep
+if ! command -v gammastep >/dev/null 2>&1; then
+    notify-send "Night light" "Not installed. Run: sudo dnf install gammastep"
+    exit 1
+fi
+if pgrep -x gammastep >/dev/null 2>&1; then
+    pkill -x gammastep
+    notify-send "Night light off"
+else
+    # Fixed 4500K day and night; killing it restores gamma.
+    nohup gammastep -m wayland -l 0:0 -t 4500:4500 >/dev/null 2>&1 &
+    notify-send "Night light on (4500K)"
+fi

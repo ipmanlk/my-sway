@@ -1,0 +1,65 @@
+#!/bin/sh
+# Toggle screen recording (Sway + wf-recorder), Omarchy-style.
+set -u
+
+OUTDIR="$HOME/Videos/Screencasts"
+PIDFILE="${XDG_RUNTIME_DIR:-/tmp}/sway-record.pid"
+
+stop_recording() {
+    # $1 = pid to stop
+    kill -INT "$1" 2>/dev/null
+    sleep 1
+    rm -f "$PIDFILE" "$PIDFILE.file"
+}
+
+if [ -f "$PIDFILE" ] && kill -0 "$(cat "$PIDFILE")" 2>/dev/null; then
+    FILE="$(cat "$PIDFILE.file" 2>/dev/null)"
+    stop_recording "$(cat "$PIDFILE")"
+    notify-send "Recording stopped" "${FILE:-$OUTDIR}"
+    exit 0
+fi
+if pgrep -x wf-recorder >/dev/null 2>&1; then
+    pkill -INT -x wf-recorder
+    rm -f "$PIDFILE" "$PIDFILE.file"
+    notify-send "Recording stopped" "$OUTDIR"
+    exit 0
+fi
+
+if ! command -v wf-recorder >/dev/null 2>&1; then
+    notify-send "Screen recorder" "Not installed. Run: sudo dnf install wf-recorder"
+    exit 1
+fi
+
+CHOICE="$(printf 'Region\nFullscreen\nRegion + audio\nFullscreen + audio' | rofi -dmenu -p 'Record' -theme ~/.config/rofi/omarchy-dark.rasi)" || exit 0
+case "$CHOICE" in
+    Region|Fullscreen|"Region + audio"|"Fullscreen + audio") ;;
+    *) exit 0 ;;  # Esc / empty: stay silent
+esac
+
+mkdir -p "$OUTDIR"
+FILE="$OUTDIR/$(date '+%Y-%m-%d_%H-%M-%S').mp4"
+
+GEOM=""
+case "$CHOICE" in
+    Region*)
+        GEOM="$(slurp)" || exit 0
+        ;;
+esac
+
+AUDIO=""
+case "$CHOICE" in
+    *audio) AUDIO="-a" ;;
+esac
+
+# shellcheck disable=SC2086
+nohup wf-recorder $AUDIO ${GEOM:+-g "$GEOM"} -f "$FILE" >/dev/null 2>&1 &
+echo $! > "$PIDFILE"
+echo "$FILE" > "$PIDFILE.file"
+sleep 1
+if kill -0 "$(cat "$PIDFILE")" 2>/dev/null; then
+    notify-send "Recording started" "$CHOICE -> $(basename "$FILE")"
+else
+    rm -f "$PIDFILE" "$PIDFILE.file"
+    notify-send "Recording failed" "wf-recorder exited immediately"
+    exit 1
+fi
