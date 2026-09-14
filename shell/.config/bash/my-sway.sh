@@ -2,6 +2,12 @@
 # Sourced from ~/.bashrc by scripts/provision-user.sh (idempotent append).
 # Safe on non-Sway machines too: everything is guarded by command -v.
 
+# Interactive shells only — nothing here makes sense for scripts/scp/rsync.
+# return-or-exit covers both sourcing (normal) and direct execution (accidental).
+if [[ $- != *i* ]]; then
+  return 0 2>/dev/null || exit 0
+fi
+
 # ~/.local/bin first (sway-* helpers, mise shims)
 case ":$PATH:" in
   *":$HOME/.local/bin:"*) ;;
@@ -19,10 +25,9 @@ if command -v zoxide >/dev/null 2>&1; then
   eval "$(zoxide init bash)"
 fi
 
-# fzf: key bindings + completion (Fedora path)
+# fzf: key bindings + completion (upstream-recommended init for fzf >= 0.48)
 if command -v fzf >/dev/null 2>&1; then
-  [ -f /usr/share/fzf/shell/key-bindings.bash ] && . /usr/share/fzf/shell/key-bindings.bash
-  [ -f /usr/share/fzf/shell/completion.bash ] && . /usr/share/fzf/shell/completion.bash
+  eval "$(fzf --bash)"
 fi
 
 # Editors: helix default, vim fallback
