@@ -25,6 +25,12 @@ if command -v fzf >/dev/null 2>&1; then
   [ -f /usr/share/fzf/shell/completion.bash ] && . /usr/share/fzf/shell/completion.bash
 fi
 
-# Editors: vim default, helix as hx / hl
-command -v vim >/dev/null 2>&1 && export EDITOR="${EDITOR:-vim}"
-command -v hx >/dev/null 2>&1 && alias hl='hx'
+# Editors: helix default, vim fallback
+if command -v hx >/dev/null 2>&1; then
+  export EDITOR="${EDITOR:-hx}"
+  export VISUAL="${VISUAL:-hx}"
+  alias hl='hx'
+elif command -v vim >/dev/null 2>&1; then
+  export EDITOR="${EDITOR:-vim}"
+  export VISUAL="${VISUAL:-vim}"
+fi
