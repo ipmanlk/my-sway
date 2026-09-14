@@ -20,8 +20,6 @@ FEDORA_VER="$(rpm -E %fedora)"
 
 echo "==> [$DNF] Fedora $FEDORA_VER — refresh + base tooling"
 $DNF upgrade --refresh -y
-# Only stow: curl + dnf5-plugins ship with every spin (core group),
-# and git-core ships in the Sway spin (swaywm-extended) — clone/push work.
 $DNF install -y stow
 
 echo "==> RPM Fusion free + nonfree (version-agnostic URLs)"
@@ -84,27 +82,20 @@ echo "==> Ghostty (COPR scottames/ghostty — still not in official repos as of 
 $DNF copr enable -y scottames/ghostty
 $DNF install -y ghostty
 
-echo "==> Sway stack extras (ONLY what the spin lacks — verified vs F44 comps)"
-# Already in the spin, NOT installed here: sway swaylock swayidle waybar foot
-# dunst grim slurp wl-clipboard (swaywm group); brightnessctl (sway-config-fedora
-# dep); pavucontrol mpv Thunar imv kanshi firefox (swaywm-extended); nm-connection-editor
-# (strong dep of network-manager-applet); git-core bash-completion curl (core/standard).
-# NOTE: the spin serves the power-profiles-daemon D-Bus API via tuned-ppd instead —
-# installing power-profiles-daemon would remove tuned, so it is deliberately omitted
-# (Waybar's power-profiles module uses the same D-Bus API and works as-is).
-# rofi is kept explicitly: our bar/menus hard-require it (no-op if already present).
+echo "==> Sway stack extras"
+# power-profiles-daemon left out on purpose: the spin serves that D-Bus API
+# via tuned-ppd, installing it would remove tuned.
 $DNF install -y \
   rofi cliphist wf-recorder gammastep \
   zenity libnotify
 
-echo "==> CLI + dev tools you asked for (minus spin defaults)"
-# git-core, bash-completion and curl already ship with the spin — omitted.
+echo "==> CLI + dev tools"
 $DNF install -y \
   gh vim helix \
   zoxide fastfetch fzf \
   htop btop
 
-echo "==> Desktop apps (mpv already ships with the spin — omitted)"
+echo "==> Desktop apps"
 $DNF install -y qbittorrent
 # uget is legacy/abandoned upstream; still packaged for now. Don't fail if gone.
 $DNF install -y uget || echo "NOTE: 'uget' not available on Fedora $FEDORA_VER — skipping."

@@ -7,7 +7,7 @@
 set -eu
 
 REPO_DIR="$(cd "$(dirname "$0")" && pwd)"
-PACKAGES="sway waybar rofi ghostty foot dunst gtk bin applications shell"
+PACKAGES="sway waybar rofi ghostty dunst gtk bin applications shell"
 MODE="--restow"
 if [ "${1:-}" = "--delete" ]; then
   MODE="--delete"
@@ -39,7 +39,6 @@ if [ "$MODE" != "--delete" ]; then
   backup_if_regular .config/rofi/omarchy-dark.rasi
   backup_if_regular .config/rofi/powermenu.sh
   backup_if_regular .config/ghostty/config
-  backup_if_regular .config/foot/foot.ini
   backup_if_regular .config/dunst/dunstrc
   backup_if_regular .config/gtk-3.0/settings.ini
   backup_if_regular .config/gtk-4.0/settings.ini
